@@ -60,10 +60,11 @@ class AppController extends Controller
     	$session = $this->request->session();
     	$this->loadModel('Competitions');
     	$competitionSelected = $this->Competitions->find('all')->where(['selected'=> '1'])->first();
-    	$phase = $session->write('Competition.Id',$competitionSelected->id);
-    	$phase = $session->write('Competition.Libelle',$competitionSelected->name);
-    	$phase = $session->write('Competition.Date',$competitionSelected->date_competition);
-    	$phase = $session->write('Competition.Lieu',$competitionSelected->lieu);
+    	$session->write('Competition.Id',$competitionSelected->id);
+    	$session->write('Competition.Libelle',$competitionSelected->name);
+    	$session->write('Competition.Date',$competitionSelected->date_competition);
+    	$session->write('Competition.Lieu',$competitionSelected->lieu);
+    	$session->write('Competition.Type',$competitionSelected->type);
     	
     	
     	

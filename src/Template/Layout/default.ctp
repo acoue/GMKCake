@@ -92,7 +92,7 @@ $cakeDescription = 'GMK ';
 	            	<span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">GMK</span> de <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Anthony COUE</span> est mis à disposition selon les termes de la <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">licence Creative Commons Attribution - Pas d’Utilisation Commerciale - Partage dans les Mêmes Conditions 4.0 International</a>
 	            	</div>
 	            	<div class="col-md-1 text-footer-right">A propos</div>
-	                <div class="col-md-1 text-footer-right">Version 3.0<br />15/02/2015</div>
+	                <div class="col-md-1 text-footer-right">Version 3.0 - 15/02/2015</div>
 				</div>
 			</div>
 		</footer>

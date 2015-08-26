@@ -4,7 +4,6 @@ if($session->check('Auth.User.id')) {
 ?>
 
 <div id='navbar' class='navbar-collapse collapse'>
-<span class="header_titre">Rôle : <?= $session->read('Auth.User.role')?></span>
 	<ul class="nav navbar-nav navbar-right">
                 	<li class="dropdown">
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gestion<span class="caret"></span></a>
@@ -18,23 +17,32 @@ if($session->check('Auth.User.id')) {
                     	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Compétition<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                         	<li><a href='#'>R&eacute;partition</a></li>
+ <?php if($session->read("Competition.Type") === 0) {?>
                             <li><a href='#'>Tirage au sort</a></li>
+<?php } else { ?>
                             <li><a href='#'>Tirage au sort EQUIPES France</a></li>
+<?php }?>
                             <li><a href='#'>G&eacute;n&eacute;ration poules</a></li>
                             <li><a href='#'>Imprimer poules</a></li>
                             <li><a href='#'>G&eacute;n&eacute;ration tableaux</a></li>
+                        </ul>
+                  	</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Résultat<span class="caret"></span></a>    
+  	                    <ul class="dropdown-menu" role="menu">
                             <li><a href='#'><span>R&eacute;sultats - Classement poules</a></li>
                             <li><a href='#'><span>R&eacute;sultat - Combats poules</a></li>
                             <li><a href='#'><span>R&eacute;sultat - Combats tableaux</a></li>
                         </ul>
                     </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Passages de grades<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Liste participants</a></li>
-                                <li><a href="#">R&eacute;sultats</a></li>
-                            </ul>
-                        </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Passages de grades<span class="caret"></span></a>    
+  	                    <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Liste participants</a></li>
+        	                <li><a href="#">R&eacute;sultats</a></li>
+            	        </ul>
+                	</li>
+<?php if($session->read('Auth.User.role') === 'admin') {?>
 		<li class="dropdown">
 	        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administration<span class="caret"></span></a>
 	       	<ul class="dropdown-menu" role="menu">
@@ -43,6 +51,7 @@ if($session->check('Auth.User.id')) {
                 <li><?php echo $this->Html->link("Régions",'/Regions/index',array('title'=>'Gestion des régions')); ?></li>
 			</ul>
         </li>
+<?php } ?>
 		<li><?= $this->Html->link("Déconnexion","/users/logout");?></li>
 	</ul>
 </div>

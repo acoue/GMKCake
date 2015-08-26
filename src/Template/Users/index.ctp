@@ -1,37 +1,64 @@
-<div class="actions columns large-2 medium-3">
-    <h3><?= __('Actions') ?></h3>
-    <ul class="side-nav">
-        <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-    </ul>
-</div>
-<div class="users index large-10 medium-9 columns">
-    <table cellpadding="0" cellspacing="0">
-    <thead>
-        <tr>
-            <th><?= $this->Paginator->sort('id') ?></th>
-            <th><?= $this->Paginator->sort('username') ?></th>
-            <th><?= $this->Paginator->sort('password') ?></th>
-            <th><?= $this->Paginator->sort('role') ?></th>
-            <th><?= $this->Paginator->sort('active') ?></th>
-            <th class="actions"><?= __('Actions') ?></th>
-        </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($users as $user): ?>
-        <tr>
-            <td><?= $this->Number->format($user->id) ?></td>
-            <td><?= h($user->username) ?></td>
-            <td><?= h($user->password) ?></td>
-            <td><?= h($user->role) ?></td>
-            <td><?= $this->Number->format($user->active) ?></td>
-            <td class="actions">
-                <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-            </td>
-        </tr>
-
-    <?php endforeach; ?>
-    </tbody>
-    </table>
+<div class="blocblanc">
+	<h2>Administration</h2>
+    <h3>Utilisateur</h3>
+	<div class="blocblancContent">
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-10"> 
+				<table cellpadding="0" cellspacing="0" class="table table-striped">
+				    <thead>
+				        <tr align='center'>
+				            <th width='10%'><?= $this->Paginator->sort('identifiant') ?></th>
+				            <th width='20%'><?= $this->Paginator->sort('Login') ?></th>
+				            <th width='20%'><?= $this->Paginator->sort('Rôle') ?></th>
+				            <th width='20%'><?= $this->Paginator->sort('Active','Actif') ?></th>
+				            <th  width='20%' class="actions"><?= __('Actions') ?></th>
+				        </tr>
+				    </thead>
+				    <tbody>
+    				<?php foreach ($users as $user): ?>
+				        <tr>
+				            <td><?= $this->Number->format($user->id) ?></td>
+				            <td><?= h($user->username) ?></td>
+				            <td><?= h($user->role) ?></td>
+				            <td><?= h($user->active) ?></td>
+				            <td class="actions">
+				<?= $this->Html->link('<span><i class="glyphicon glyphicon-eye-open"></i></span>', ['action' => 'view', $user->id], ['escape' => false,'title'=>'Visualisation de l\'utilisateur']); ?>&nbsp;&nbsp;
+				<?= $this->Html->link('<span><i class="glyphicon glyphicon-edit"></i></span>', ['action' => 'edit', $user->id], ['escape' => false,'title'=>'Edition de l\'utilisateur']); ?>&nbsp;&nbsp;     
+				<?= $this->Form->postLink(
+				                '<span><i class="glyphicon glyphicon-trash"></i></span>',
+				                ['action' => 'delete', $user->id],
+				                ['class' => 'tip', 'escape'   => false,'title'=>'Suppression de l\'utilisateur', 'confirm'  => 'Etes-vous sûr de supprimer ?']);?>
+				  
+				<?php if($user->active == 1) echo $this->Form->postLink(
+				                '<span><i class="glyphicon glyphicon-minus-sign"></i></span>',
+				                ['action' => 'desactiveUser', $user->id],
+				                ['class' => 'tip', 'escape'   => false,'title'=>'Desactivation de l\'utilisateur', 'confirm'  => 'Etes-vous sûr de desactiver l\'utilisateur ?']);
+					else echo $this->Form->postLink(
+				                '<span><i class="glyphicon glyphicon-plus-sign"></i></span>',
+				                ['action' => 'activeUser', $user->id],
+				                ['class' => 'tip','title'=>'Activation de l\'utilisateur', 'escape'   => false]);				
+				?>
+				<?= $this->Html->link('<span><i class="glyphicon glyphicon-retweet"></i></span>', ['action' => 'regeneratePassword', $user->id], ['escape' => false,'title'=>'Modification du mot de passe de l\'utilisateur']); ?>
+							</td>
+				        </tr>
+				
+				    <?php endforeach; ?>
+				    </tbody>
+				   </table>
+					<div class="paginator">
+				        <ul class="pagination">
+				            <?= $this->Paginator->prev('< ' . __('Préc.')) ?>
+				            <?= $this->Paginator->numbers() ?>
+				            <?= $this->Paginator->next(__('Suiv.') . ' >') ?>
+				        </ul>
+				        <p><?= $this->Paginator->counter() ?></p>
+				    </div>
+			</div>						
+			<div class="col-md-1"></div>
+		</div>
+		<p align="center">
+			<?= $this->Html->link(__('Créer un Utilisateur'), ['action' => 'add'], ['class'=>'btn btn-default']) ?>
+		</p>
+	</div>
 </div>

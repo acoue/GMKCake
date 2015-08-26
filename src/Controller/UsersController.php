@@ -16,16 +16,27 @@ class UsersController extends AppController
 		parent::beforeFilter($event);
 		$this->Auth->allow(['login', 'password']);
 	}
-
+	
 	public function isAuthorized($user)
 	{
 			
 		// Droits de tous les utilisateurs connectes sur les actions
-		if(in_array($this->request->action, ['logout'])){
+		if(in_array($this->request->action, ['logout','compte'])){
 			return true;
 		}
 	
+		if(in_array($this->request->action, ['index'])){
+			if (isset($user['role']) && $user['role'] === 'gestionnaire') {
+				return true;
+			}
+		}
+	
 		return parent::isAuthorized($user);
+	}
+	
+	public function initialize()
+	{
+		parent::initialize();
 	}
 	
 	public function login()
@@ -51,7 +62,10 @@ class UsersController extends AppController
 	}
 	public function index()
 	{
-		$this->set('users', $this->Users->find('all'));
+	//	$this->set('users', $this->Users->find('all'));
+
+		$this->set('users', $this->paginate($this->Users));
+		$this->set('_serialize', ['users']);
 	}
 
 	public function view($id)
@@ -78,4 +92,28 @@ class UsersController extends AppController
 		$this->set('user', $user);
 	}
 
+	/**
+	 * Edit method
+	 *
+	 * @param string|null $id User id.
+	 * @return void Redirects on successful edit, renders view otherwise.
+	 * @throws \Cake\Network\Exception\NotFoundException When record not found.
+	 */
+	public function edit($id = null)
+	{
+		$user = $this->Users->get($id, [
+				'contain' => []
+				]);
+		if ($this->request->is(['patch', 'post', 'put'])) {
+			$user = $this->Users->patchEntity($user, $this->request->data);
+			if ($this->Users->save($user)) {
+				$this->Flash->success('L\'utilisateur a bien été sauvegardé.');
+				return $this->redirect(['action' => 'index']);
+			} else {
+				$this->Flash->error('Erreur lors de la sauvegarde de l\'utilisateur.');
+			}
+		}
+		$this->set(compact('user'));
+		$this->set('_serialize', ['user']);
+	}
 }
